@@ -1,0 +1,24 @@
+{
+  "name": "earth-dashboard-be",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "test": "cross-env DB_ENV=testing jest --watch",
+    "start": "node index.js"
+  },
+  "repository": "https://github.com/Lambda-School-Labs/earth-dashboard-be.git",
+  "author": "William M. <wmooney1984@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  }
+}
