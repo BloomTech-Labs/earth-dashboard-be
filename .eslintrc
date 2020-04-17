@@ -1,0 +1,40 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "import",
+    "json-format",
+    "optimize-regex"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-prettier",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "airbnb",
+
+    // must be last
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "strict": ["error", "never"],
+    "optimize-regex/optimize-regex": "warn",
+    "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "import/no-cycle": "warn"
+  },
+  "env": {
+    "browser": false,
+    "es6": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js"
+        ]
+      }
+    }
+  }
+}
