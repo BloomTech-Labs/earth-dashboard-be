@@ -1,14 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+
 const server = express();
 
-server.use(helmet());
-server.use(cors());
-server.use(express.json());
+const apiRouter = require("./api/api.router");
 
-server.get('/', (req, res) => {
-  res.send('welcome to Earth Dashboard')
-})
+server.use(helmet(), morgan("dev"), express.json(), cors());
 
-module.exports = server; 
+server.use("/api", apiRouter);
+
+server.get("/", (req, res) => {
+  res.send("welcome to Earth Dashboard");
+});
+
+module.exports = server;
