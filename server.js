@@ -12,6 +12,7 @@ server.use(morgan("dev"));
 server.use(cors());
 server.use(express.json());
 
+// All api requests will route through /api. If auth is necessary, it can be separated to a different route
 server.use("/api", apiRouter);
 
 server.get("/", (req, res) => {
