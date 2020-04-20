@@ -1,7 +1,27 @@
-const { queryMapData, queryDataByDate } = require("./confirmedCases.model");
+/*
+ * The cases controller is responsible for taking the raw DB from the database and wrangling it into
+ * a shape that the front-end component can use to render the visualization. This helps keep processing
+ * on the server rather than the client. Implementing caching will allow us lower processing cost on the
+ * server in the future. This would not be an option if data manipulation were offloaded on the client.
+ */
 
-const getVisualizationData = async (req, res, next) => {
+const { queryMapData, queryDataByDate } = require("./cases.model");
+
+const getVisualizationData = async (_req, res, next) => {
   try {
+    /*
+     * Represents all of the data that makes up the final state of the map
+     * data = [
+     *    lat: number[]
+     *    lon: number[]
+     *    z: number[]
+     *    colorscale: string
+     *    radius: number
+     *    type: string
+     *    zmax: number
+     *    zmin: number
+     *  ]
+     */
     const data = [
       Object.assign(...(await queryMapData()), {
         colorscale: "Hot",
@@ -14,6 +34,19 @@ const getVisualizationData = async (req, res, next) => {
 
     const dataByDate = await queryDataByDate();
 
+    /*
+     * Represents an array of snapshots for each day
+     * frames = [{
+     *    name: string
+     *    data: [{
+     *      lat: number
+     *      lon: number
+     *      radius: number
+     *      type: string
+     *      z: number
+     *    }]
+     *  }]
+     */
     const frames = dataByDate.map((day) => {
       return {
         name: day.date,
@@ -23,7 +56,7 @@ const getVisualizationData = async (req, res, next) => {
             lon: day.lon,
             radius: 10,
             type: "densitymapbox",
-            z: day.z.map((s) => Number(s)),
+            z: day.z,
           },
         ],
       };
@@ -50,6 +83,7 @@ const getVisualizationData = async (req, res, next) => {
       };
     });
 
+    // Represents the display and interactive elements of the map
     const layout = {
       height: 800,
       updatemenus: [
@@ -123,6 +157,7 @@ const getVisualizationData = async (req, res, next) => {
       ],
     };
 
+    // Visualization component can accept this object 'as-is' to generate the map
     res.status(200).json({ data, frames, layout });
   } catch (error) {
     next(error);
