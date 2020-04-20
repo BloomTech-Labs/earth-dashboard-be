@@ -7,7 +7,10 @@ const server = express();
 
 const apiRouter = require("./api/api.router");
 
-server.use(helmet(), morgan("dev"), express.json(), cors());
+server.use(helmet());
+server.use(morgan("dev"));
+server.use(cors());
+server.use(express.json());
 
 server.use("/api", apiRouter);
 
