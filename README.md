@@ -28,6 +28,12 @@ To get the server running locally:
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
+#### Visualization Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/api/cases`            | all users      | Returns all data needed for the cases map.   |
+
 #### Organization Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
@@ -88,6 +94,9 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
+`queryMapData()` -> Returns the latitude, longitude, and number of cases for every location for all dates
+`queryDataByDate()` -> Returns the latitude, longitude, and number of cases for every location group by date
+
 🚫 This is an example, replace this with the actions that pertain to your backend
 
 `getOrgs()` -> Returns all organizations
@@ -117,6 +126,11 @@ To get the server running locally:
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
+
+_ DEV_DB_URL - optional development db for using functionality not available in SQLite
+_ CONFIRMED_CASES_MAPBOX_STYLE - mapbox style token
+_ CONFIRMED_CASES_MAPBOX_TOKEN - mapbox access token
+
 
 🚫 These are just examples, replace them with the specifics for your app
 
