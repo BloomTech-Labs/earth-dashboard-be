@@ -4,7 +4,7 @@ const getVisualizationData = async (req, res, next) => {
   try {
     const data = [
       Object.assign(...(await queryMapData()), {
-        colorscale: "hot",
+        colorscale: "Hot",
         radius: 5,
         type: "densitymapbox",
         zmax: 5,
@@ -22,8 +22,8 @@ const getVisualizationData = async (req, res, next) => {
             lat: day.lat,
             lon: day.lon,
             radius: 10,
-            type: "denisitymapbox",
-            z: day.z,
+            type: "densitymapbox",
+            z: day.z.map((s) => Number(s)),
           },
         ],
       };
@@ -32,7 +32,7 @@ const getVisualizationData = async (req, res, next) => {
     const steps = dataByDate.map((day) => {
       return {
         args: [
-          day,
+          [day.date],
           {
             frame: {
               duration: 300,
@@ -44,13 +44,14 @@ const getVisualizationData = async (req, res, next) => {
             },
           },
         ],
-        label: day,
+        label: day.date,
         method: "animate",
-        value: day,
+        value: day.date,
       };
     });
 
     const layout = {
+      height: 800,
       updatemenus: [
         {
           buttons: [
@@ -99,10 +100,11 @@ const getVisualizationData = async (req, res, next) => {
         },
         zoom: 3.5,
       },
-      title: "USA Covid-19 Confirmed Cases Daily Count",
+      title: {
+        text: "USA Covid-19 Confirmed Cases Daily Count",
+      },
       sliders: [
         {
-          active: 0,
           currentvalue: {
             font: {
               size: 15,
@@ -114,8 +116,9 @@ const getVisualizationData = async (req, res, next) => {
             duration: 300,
             easing: "cubic-in-out",
           },
-          x: 0,
           steps,
+          x: 0,
+          active: 0,
         },
       ],
     };
