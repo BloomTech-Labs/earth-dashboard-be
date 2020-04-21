@@ -85,7 +85,7 @@ const getVisualizationData = async (_req, res, next) => {
 
     // Represents the display and interactive elements of the map
     const layout = {
-      height: 800,
+      // height: 800,
       updatemenus: [
         {
           buttons: [
@@ -151,7 +151,7 @@ const getVisualizationData = async (_req, res, next) => {
             easing: "cubic-in-out",
           },
           steps,
-          x: 0,
+          // x: 0,
           active: 0,
         },
       ],
