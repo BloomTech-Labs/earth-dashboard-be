@@ -3,9 +3,10 @@ const db = require("../../../data/dbConfig");
 const queryMapData = () =>
   db
     .raw(
-      'SELECT "Lat" as lat, "Lon" as lon, "Cases"::int as cases, "Date" as date ' +
-        'FROM "USA Covid Daily Counts" ' +
-        'WHERE EXISTS (SELECT "Lat", "Lon", "Cases", "Date" WHERE "Cases" > 0) ' +
+      "SELECT lat, lon, cases::int, to_char(date, 'MM-dd-yy') as date " +
+        'FROM "uscounties" ' +
+        "WHERE EXISTS (SELECT lat, lon, cases, date WHERE cases > 0) " +
+        "AND date > CURRENT_DATE - INTERVAL '120 days'" +
         "ORDER BY date ASC"
     )
     .then((queryResult) => queryResult.rows);
