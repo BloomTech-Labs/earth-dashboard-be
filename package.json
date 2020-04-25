@@ -6,6 +6,7 @@
   "author": "William M. <wmooney1984@gmail.com>",
   "main": "index.js",
   "scripts": {
+    "coverage": "CI=true yarn test --coverage --watchAll=false || true",
     "format": "yarn run prettier --write",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:fix": "eslint --fix --ignore-path .gitignore --ext .js,.jsx .",
@@ -27,6 +28,14 @@
     "package.json": [
       "sort-package-json",
       "git add"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/__tests__/**"
     ]
   },
   "dependencies": {
