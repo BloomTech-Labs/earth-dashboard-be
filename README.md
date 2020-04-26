@@ -30,9 +30,9 @@ To get the server running locally:
 
 #### Visualization Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/api/cases`            | all users      | Returns all data needed for the cases map.   |
+| Method | Endpoint     | Access Control | Description                                |
+| ------ | ------------ | -------------- | ------------------------------------------ |
+| GET    | `/api/cases` | all users      | Returns all data needed for the cases map. |
 
 #### Organization Routes
 
@@ -128,16 +128,16 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 _ DEV_DB_URL - optional development db for using functionality not available in SQLite
-_ CONFIRMED_CASES_MAPBOX_STYLE - mapbox style token
-_ CONFIRMED_CASES_MAPBOX_TOKEN - mapbox access token
-
+_ CONFIRMED*CASES_MAPBOX_STYLE - mapbox style token
+* CONFIRMED_CASES_MAPBOX_TOKEN - mapbox access token
 
 🚫 These are just examples, replace them with the specifics for your app
 
 _ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE*ENV - set to "development" until ready for "production"
-* JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-_ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+_ NODE\*ENV - set to "development" until ready for "production"
+
+- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
 
 ## Contributing
 
@@ -180,3 +180,11 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](https://github.com/Lambda-School-Labs/earth-dashboard-fe) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
+
+## Code Climate
+
+GRADE BADGE MARKDOWN
+[![Maintainability](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/maintainability)
+
+COVERAGE BADGE MARKDOWN
+[![Test Coverage](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/test_coverage)
