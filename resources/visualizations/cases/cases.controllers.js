@@ -1,4 +1,5 @@
 const { queryMapData } = require("./cases.model");
+const DatabaseError = require("../../../server/middleware/DatabaseError");
 
 const getVisualizationData = async (_req, res, next) => {
   try {
@@ -9,7 +10,12 @@ const getVisualizationData = async (_req, res, next) => {
       dates: [...new Set(mapData.map((day) => day.date))],
     });
   } catch (error) {
-    next(error);
+    next(
+      new DatabaseError({
+        message: "Cannot retrieve cases",
+        dbMessage: error,
+      })
+    );
   }
 };
 
