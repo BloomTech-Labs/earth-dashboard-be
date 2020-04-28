@@ -1,3 +1,8 @@
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/test_coverage)
+
+
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
 
 🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
@@ -180,11 +185,3 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](https://github.com/Lambda-School-Labs/earth-dashboard-fe) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
-
-## Code Climate
-
-GRADE BADGE MARKDOWN
-[![Maintainability](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/maintainability)
-
-COVERAGE BADGE MARKDOWN
-[![Test Coverage](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/test_coverage)
