@@ -11,4 +11,14 @@ const queryMapData = () =>
     )
     .then((queryResult) => queryResult.rows);
 
-module.exports = { queryMapData };
+const queryByCountryData = () =>
+  db
+    .raw(
+      "SELECT * " +
+        'FROM "covidall" ' +
+        "WHERE EXISTS (SELECT confirmed WHERE confirmed >= 90000) " +
+        'AND date >= "2020-04-28 00:00:00" '
+    )
+    .then((queryResult) => queryResult.rows);
+
+module.exports = { queryMapData, queryByCountryData };

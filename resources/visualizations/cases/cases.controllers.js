@@ -1,4 +1,4 @@
-const { queryMapData } = require("./cases.model");
+const { queryMapData, queryByCountryData } = require("./cases.model");
 const DatabaseError = require("../../../server/middleware/DatabaseError");
 
 const getVisualizationData = async (_req, res, next) => {
@@ -19,4 +19,21 @@ const getVisualizationData = async (_req, res, next) => {
   }
 };
 
-module.exports = { getVisualizationData };
+// Get Data for confirmed cases by country for Racing Chart Visualization
+const getConfirmedCasesData = async (_req, res, next) => {
+  try {
+    const confirmedData = await queryByCountryData();
+    res.status(200).json({
+      confirmed: confirmedData,
+    });
+  } catch (err) {
+    next(
+      new DatabaseError({
+        message: "Cannot retrieve cases",
+        dbMessage: err,
+      })
+    );
+  }
+};
+
+module.exports = { getVisualizationData, getConfirmedCasesData };
