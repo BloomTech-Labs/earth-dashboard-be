@@ -12,13 +12,8 @@ const queryMapData = () =>
     .then((queryResult) => queryResult.rows);
 
 const queryByCountryData = () =>
-  db
-    .raw(
-      "SELECT * " +
-        'FROM "covidall" ' +
-        "WHERE EXISTS (SELECT confirmed WHERE confirmed >= 90000) " +
-        'AND date >= "2020-04-28 00:00:00" '
-    )
-    .then((queryResult) => queryResult.rows);
+  db("covidall")
+    .where("confirmed", ">=", 90000)
+    .andWhere("date", ">=", "2020-05-01 00:00:00");
 
 module.exports = { queryMapData, queryByCountryData };
