@@ -20,7 +20,7 @@ module.exports = {
   testing: {
     client: "pg",
     connection: {
-      port: procces.env.TEST_DB_PORT,
+      port: process.env.TEST_DB_PORT,
       host: process.env.TEST_DB_HOST,
       user: process.env.TEST_DB_USER,
       password: process.env.TEST_DB_PASS,
