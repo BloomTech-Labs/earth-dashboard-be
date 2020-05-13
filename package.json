@@ -15,9 +15,9 @@
     "seed:run": "npx knex seed:run",
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --watch",
-    "test:CI": "cross-env NODE_ENV=staging jest --coverage --detectOpenHandles --forceExit || true",
+    "test": "jest --coverage --detectOpenHandles --forceExit || true",
     "test:coverage": "cross-env NODE_ENV=testing jest --detectOpenHandles --coverage",
+    "test:dev": "cross-env NODE_ENV=testing jest --detectOpenHandles --watch",
     "validate": "npm-run-all --parallel format lint test:coverage"
   },
   "husky": {
