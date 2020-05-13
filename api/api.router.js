@@ -6,6 +6,6 @@ const controllers = require("./api.controllers");
 router.use("/cases", casesRouter);
 
 // /api routes to the api controller and sends back a basic status message to indicate API is up
-router.route("/").get(controllers.apiRoot);
+router.route("/deaths").get(controllers.apiRoot);
 
 module.exports = router;
