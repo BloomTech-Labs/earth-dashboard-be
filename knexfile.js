@@ -1,4 +1,7 @@
+//const pg = require("pg");
+
 require("dotenv").config();
+//pg.defaults.ssl = true;
 
 module.exports = {
   development: {
@@ -20,6 +23,7 @@ module.exports = {
   testing: {
     client: "pg",
     connection: {
+      port: process.env.TEST_DB_PORT,
       host: process.env.TEST_DB_HOST,
       user: process.env.TEST_DB_USER,
       password: process.env.TEST_DB_PASS,
