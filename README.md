@@ -1,6 +1,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/test_coverage)
+[![Heroku CI Status](https://hbadge.herokuapp.com/last.svg)](https://dashboard.heroku.com/pipelines/2f497cf1-a506-4b6b-9415-d364b1f30a8c/tests)
 
 
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
