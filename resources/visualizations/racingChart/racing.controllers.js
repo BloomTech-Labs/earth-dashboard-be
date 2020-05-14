@@ -5,10 +5,9 @@ const DatabaseError = require("../../../server/middleware/DatabaseError");
 const getConfirmedCasesData = async (_req, res, next) => {
   try {
     const deathsData = await queryByCountryData();
-    res.status(200).json({
-      deaths: deathsData,
-    });
+    res.status(200).json(deathsData);
   } catch (err) {
+    console.error(err);
     next(
       new DatabaseError({
         message: "Cannot retrieve cases",

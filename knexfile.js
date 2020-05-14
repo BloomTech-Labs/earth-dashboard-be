@@ -1,7 +1,4 @@
-// const pg = require("pg");
-
 require("dotenv").config();
-// pg.defaults.ssl = true;
 
 module.exports = {
   development: {
