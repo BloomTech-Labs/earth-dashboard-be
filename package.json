@@ -16,6 +16,7 @@
     "server": "nodemon index.js",
     "start": "node index.js",
     "test": "jest --coverage --detectOpenHandles --forceExit || true",
+    "test:CI": "cross-env NODE_ENV=staging jest --coverage --detectOpenHandles --forceExit || true",
     "test:coverage": "cross-env NODE_ENV=testing jest --detectOpenHandles --coverage",
     "test:dev": "cross-env NODE_ENV=testing jest --detectOpenHandles --watch",
     "validate": "npm-run-all --parallel format lint test:coverage"
