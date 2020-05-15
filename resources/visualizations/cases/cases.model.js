@@ -11,9 +11,4 @@ const queryMapData = () =>
     )
     .then((queryResult) => queryResult.rows);
 
-const queryByCountryData = () =>
-  db("covidall")
-    .where("confirmed", ">=", 90000)
-    .andWhere("date", ">=", "2020-05-01 00:00:00");
-
-module.exports = { queryMapData, queryByCountryData };
+module.exports = { queryMapData };
