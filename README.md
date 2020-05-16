@@ -22,16 +22,119 @@ To get the server running locally:
 - It is the most mature of all Node.js frameworks
 - It is extremely minimalist
 
-## Endpoints
+# Endpoints
 
-#### Visualization Routes
+## Bubbles
 
-| Method | Endpoint       | Access Control | Description                                                |
-| ------ | -------------- | -------------- | ---------------------------------------------------------- |
-| GET    | `/api/bubbles` | all users      | Returns all data needed for the bubbles visualization.     |
-| GET    | `/api/cases`   | all users      | Returns all data needed for the cases map.                 |
-| GET    | `/api/air`     | all users      | Returns all data needed for the air quality visualization. |
-| GET    | `/api/deaths`  | all users      | Returns all data needed for the racing bar graph.          |
+### URL
+
+https://earthdash.herokuapp.com/api/bubbles
+
+### Description
+
+Returns the name and total confirmed cases for each country.
+
+### Schema
+
+```typescript
+{
+	"country": string,
+	"totalConfirmed": number
+}[]
+```
+
+### SQL
+
+```SQL
+SELECT country, totalconfirmed AS totalConfirmed FROM summary WHERE totalconfirmed > 0
+```
+
+## Heatmap
+
+### URL
+
+https://earthdash.herokuapp.com/api/cases
+
+### Description
+
+Returns the latitude, longitude, number of confirmed cases, and date for each day and a set of all dates.
+
+### Schema
+
+```typescript
+{
+	"cases": {
+		"lat": number,
+		"lon": number,
+		"cases": number,
+		"date": string ("MM/dd/yy")
+	}[],
+	"dates": string ("MM/dd/yy")[]
+}
+```
+
+### SQL
+
+```SQL
+SELECT lat, lon, cases::int, to_char(date, 'MM-dd-yy') AS date FROM "uscounties" WHERE EXISTS (SELECT lat, lon, cases, date WHERE cases > 0) ORDER BY date ASC
+```
+
+## Air Quality
+
+### URL
+
+https://earthdash.herokuapp.com/api/air
+
+### Description
+
+Returns a set of all dates, the date and daily dean PM2.5 concentration for each day, and the date and number of cases for each day. Data is only used for dates shared between both the cases and air quality data.
+
+### Schema
+
+```typescript
+{
+	"dates": string ("M/d/yyyy")[],
+	"airQuality": {
+		"x": string ("M/d/yyyy"),
+		"y": number
+	}[],
+	"cases": {
+		"x": string ("M/d/yyyy"),
+		"y": number
+	}[]
+}
+```
+
+### Datasources
+
+- la_glendora_ppm.csv
+- latimes-la-totals.csv
+
+## Racing Bar Graph
+
+### URL
+
+https://earthdash.herokuapp.com/api/deaths
+
+### Description
+
+Returns the name and number of deaths for the top 20 countries ranked by deaths for each day.
+
+### Schema
+
+```typescript
+{
+	"country": string,
+	"date": date,
+	"deaths": string
+}[]
+```
+
+### SQL
+
+```SQL
+SELECT ranked_countries.country, ranked_countries.date, sum(ranked_countries.deaths) AS deaths FROM (SELECT covidall.country, covidall.date, covidall.deaths, rank() OVER (PARTITION BY covidall.date ORDER BY covidall.deaths DESC) FROM covidall WHERE province = '' OR country = 'China') ranked_countries WHERE rank <=20 AND deaths > 0 GROUP BY ranked_countries.date, ranked_countries.country ORDER BY ranked_countries.date"
+```
 
 #### Misc Routes
 
