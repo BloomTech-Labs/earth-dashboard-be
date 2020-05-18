@@ -1,14 +1,6 @@
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/cef5bd3f4055b7fe79ab/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/earth-dashboard-be/test_coverage)
 [![Heroku CI Status](https://hbadge.herokuapp.com/last.svg)](https://dashboard.heroku.com/pipelines/2f497cf1-a506-4b6b-9415-d364b1f30a8c/tests)
-
-
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
 # API Documentation
 
@@ -21,7 +13,7 @@ To get the server running locally:
 - Clone this repo
 - **yarn install** to install all required dependencies
 - **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- **yarn test:dev** to start server using testing environment
 
 ### Express framework
 
@@ -30,120 +22,138 @@ To get the server running locally:
 - It is the most mature of all Node.js frameworks
 - It is extremely minimalist
 
-## 2️⃣ Endpoints
+# Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+## Bubbles
 
-#### Visualization Routes
+### URL
 
-| Method | Endpoint     | Access Control | Description                                |
-| ------ | ------------ | -------------- | ------------------------------------------ |
-| GET    | `/api/cases` | all users      | Returns all data needed for the cases map. |
+https://earthdash.herokuapp.com/api/bubbles
 
-#### Organization Routes
+### Description
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+Returns the name and total confirmed cases for each country.
 
-#### User Routes
+### Schema
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
-
-# Data Model
-
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
+```typescript
 {
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+	"country": string,
+	"totalConfirmed": number
+}[]
+```
+
+### SQL
+
+```SQL
+SELECT country, totalconfirmed AS totalConfirmed FROM summary WHERE totalconfirmed > 0
+```
+
+## Heatmap
+
+### URL
+
+https://earthdash.herokuapp.com/api/cases
+
+### Description
+
+Returns the latitude, longitude, number of confirmed cases, and date for each day and a set of all dates.
+
+### Schema
+
+```typescript
+{
+	"cases": {
+		"lat": number,
+		"lon": number,
+		"cases": number,
+		"date": string ("MM/dd/yy")
+	}[],
+	"dates": string ("MM/dd/yy")[]
 }
 ```
 
-#### USERS
+### SQL
 
----
-
+```SQL
+SELECT lat, lon, cases::int, to_char(date, 'MM-dd-yy') AS date FROM "uscounties" WHERE EXISTS (SELECT lat, lon, cases, date WHERE cases > 0) ORDER BY date ASC
 ```
+
+## Air Quality
+
+### URL
+
+https://earthdash.herokuapp.com/api/air
+
+### Description
+
+Returns a set of all dates, the date and daily dean PM2.5 concentration for each day, and the date and number of cases for each day. Data is only used for dates shared between both the cases and air quality data.
+
+### Schema
+
+```typescript
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+	"dates": string ("M/d/yyyy")[],
+	"airQuality": {
+		"x": string ("M/d/yyyy"),
+		"y": number
+	}[],
+	"cases": {
+		"x": string ("M/d/yyyy"),
+		"y": number
+	}[]
 }
 ```
 
-## 2️⃣ Actions
+### Datasources
+
+- la_glendora_ppm.csv
+- latimes-la-totals.csv
+
+## Racing Bar Graph
+
+### URL
+
+https://earthdash.herokuapp.com/api/deaths
+
+### Description
+
+Returns the name and number of deaths for the top 20 countries ranked by deaths for each day.
+
+### Schema
+
+```typescript
+{
+	"country": string,
+	"date": date,
+	"deaths": string
+}[]
+```
+
+### SQL
+
+```SQL
+SELECT ranked_countries.country, ranked_countries.date, sum(ranked_countries.deaths) AS deaths FROM (SELECT covidall.country, covidall.date, covidall.deaths, rank() OVER (PARTITION BY covidall.date ORDER BY covidall.deaths DESC) FROM covidall WHERE province = '' OR country = 'China') ranked_countries WHERE rank <=20 AND deaths > 0 GROUP BY ranked_countries.date, ranked_countries.country ORDER BY ranked_countries.date"
+```
+
+#### Misc Routes
+
+| Method | Endpoint | Access Control | Description                    |
+| ------ | -------- | -------------- | ------------------------------ |
+| GET    | `/api`   | all users      | Returns an API status message. |
+
+## Actions
 
 `queryMapData()` -> Returns the latitude, longitude, and number of cases for every location for all dates
-`queryDataByDate()` -> Returns the latitude, longitude, and number of cases for every location group by date
+`querySummary()` -> Returns the name and total confirmed cases for each country
 
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-_ DEV_DB_URL - optional development db for using functionality not available in SQLite
-_ CONFIRMED*CASES_MAPBOX_STYLE - mapbox style token
-* CONFIRMED_CASES_MAPBOX_TOKEN - mapbox access token
-
-🚫 These are just examples, replace them with the specifics for your app
-
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+\*PROD_DB_URL - URL of database deployed on AWS
 
 ## Contributing
 
@@ -185,4 +195,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 ## Documentation
 
 See [Frontend Documentation](https://github.com/Lambda-School-Labs/earth-dashboard-fe) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [DS Documentation](https://github.com/Lambda-School-Labs/earth-dashboard-ds/) for details on the data science backend.

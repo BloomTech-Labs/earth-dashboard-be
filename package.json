@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix --ignore-path .gitignore --ext .js .",
     "migrate:latest": "npx knex migrate:latest",
     "migrate:rollback": "npx knex migrate:rollback",
-    "prettier": "prettier \"**/*.+(js|json)\"",
+    "prettier": "prettier \"**/*.+(js|json|md)\"",
     "seed:run": "npx knex seed:run",
     "server": "nodemon index.js",
     "start": "node index.js",
@@ -27,7 +27,7 @@
     }
   },
   "lint-staged": {
-    "**/*.+(js|json)": [
+    "**/*.+(js|json|md)": [
       "yarn run format"
     ],
     "*.+(js)": [
@@ -58,6 +58,7 @@
     "moment": "^2.25.3",
     "morgan": "^1.10.0",
     "pg": "^8.0.3",
+    "shrink-ray-current": "^4.1.2",
     "supertest": "^4.0.2"
   },
   "devDependencies": {
